@@ -1,21 +1,27 @@
 ﻿@page "/"
 
-<p>Hello, @CustomToUpper(Name)</p>
+<p>Hello, @StringUtilities.CustomToUpper(Name)</p>
 
 <p>Lets add 2 + 2 = @(2 + 2)</p>
 
 <button @onclick="@(()=> Console.WriteLine("Button clicked"))">Click me</button>
 <button @onclick="@WriteInLog">Click me</button>
 
+<div>
+    <h3>Movie</h3>
+    <p>Title: <b>@spidermanMovie.Title</b></p>
+    <p>Release Date: <b>@spidermanMovie.ReleaseDate.ToString("dd.MM.yyyy")</b></p>
+</div>
 
 @code{
 
-        private const string Name = "Mr. Smith";
+    private const string Name = "Mr. Smith";
 
-    string CustomToUpper(string value)
+    Movie spidermanMovie = new Movie
     {
-        return value.ToUpper();
-    }
+        Title = "Spiderman: Far from Home",
+        ReleaseDate = new DateTime(2019,7,2)
+    };
 
     private void WriteInLog()
     {
