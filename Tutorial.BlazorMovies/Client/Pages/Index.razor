@@ -17,7 +17,7 @@
     {
         @foreach (var movie in movies)
         {
-            <p>Title: <b>@movie.Title</b></p>
+            <p>Title: @((MarkupString)movie.Title)</p>
             <p>Release Date: <b>@movie.ReleaseDate.ToString("dd.MM.yyyy")</b></p>
         }
     
@@ -42,8 +42,8 @@
         await Task.Delay(3000);
         movies = new List<Movie>
         {
-            new Movie {Title = "Spiderman: Far from Home", ReleaseDate = new DateTime(2019, 7, 2)},
-            new Movie {Title = "Moana", ReleaseDate = new DateTime(2016, 11, 23)},
+            new Movie {Title = "<b>Spiderman: Far from Home</b>", ReleaseDate = new DateTime(2019, 7, 2)},
+            new Movie {Title = "<i>Moana</i>", ReleaseDate = new DateTime(2016, 11, 23)},
             new Movie {Title = "Inception", ReleaseDate = new DateTime(2010, 7, 16)}
         };
         base.OnInitialized();
