@@ -1,33 +1,23 @@
-﻿@if (movies == null)
+﻿@if (Movies == null)
 {
     <img src="https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif"/>
 }
-else if (movies.Count == 0)
+else if (Movies.Count == 0)
 {
     <text>There are no records to show</text>
 }
 
 else
 {
-    @foreach (var movie in movies)
+    @foreach (var movie in Movies)
     {
-        <p>Title: @movie.Title</p>
-        <p>Release Date: <b>@movie.ReleaseDate.ToString("dd.MM.yyyy")</b></p>
+        <IndividualMovie Movie="@movie"></IndividualMovie>
     }
 }
 
 @code {
-    List<Movie> movies;
 
-    protected override void OnInitialized()
-    {
-        movies = new List<Movie>
-        {
-            new Movie {Title = "Spiderman: Far from Home", ReleaseDate = new DateTime(2019, 7, 2)},
-            new Movie {Title = "Moana", ReleaseDate = new DateTime(2016, 11, 23)},
-            new Movie {Title = "Inception", ReleaseDate = new DateTime(2010, 7, 16)}
-        };
-        base.OnInitialized();
-    }
+    [Parameter]
+    public List<Movie> Movies { get; set; }
 
 }
