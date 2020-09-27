@@ -17,11 +17,35 @@
 
     [Parameter]
     public List<Movie> Movies { get; set; }
-    
+
     bool _displayButtons = true;
 
     private void DeleteMovie(Movie movie)
     {
         Movies.Remove(movie);
+    }
+
+
+    //Life Cycle Methods of a Component
+    protected override void OnInitialized()
+    {
+        Console.WriteLine("OnInitialized. Movies.Count=" + Movies.Count.ToString());
+    }
+
+    //wird jedes mal, wenn ein parameter geändert wird ausgeführt
+    protected override void OnParametersSet()
+    {
+        Console.WriteLine("OnParametersSet. Movies.Count=" + Movies.Count.ToString());
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        Console.WriteLine("OnAfterRender. First render" + firstRender);
+    }
+
+    //erstellt elemente auf der seite neu
+    protected override bool ShouldRender()
+    {
+        return true;
     }
 }

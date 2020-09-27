@@ -7,27 +7,37 @@
 </div>
 
 <div>
-    <h2>Create a movie</h2>
-    
     <DummyTextBox placeholder="some placeholder" disabled="true"/>
 
     <DummyTextBox @attributes="@TextBoxParameters"/>
 </div>
 
+<button @onclick="AddNewMovie">Add new movie</button>
 
 @code{
 
-    protected override async  Task OnInitializedAsync()
-    {
-        await Task.Delay(3000);
+    //protected override async  Task OnInitializedAsync()
+    //{
+    //    await Task.Delay(3000);
 
+    //    _movies = new List<Movie>
+    //    {
+    //        new Movie {Title = "Spiderman: Far from Home", ReleaseDate = new DateTime(2019, 7, 2)},
+    //        new Movie {Title = "Moana", ReleaseDate = new DateTime(2016, 11, 23)},
+    //        new Movie {Title = "Inception", ReleaseDate = new DateTime(2010, 7, 16)}
+    //    };
+
+    //    await base.OnInitializedAsync();
+    //}
+
+    protected override void OnInitialized()
+    {
         _movies = new List<Movie>
         {
             new Movie {Title = "Spiderman: Far from Home", ReleaseDate = new DateTime(2019, 7, 2)},
             new Movie {Title = "Moana", ReleaseDate = new DateTime(2016, 11, 23)},
             new Movie {Title = "Inception", ReleaseDate = new DateTime(2010, 7, 16)}
         };
-        base.OnInitialized();
     }
 
     private List<Movie> _movies;
@@ -36,4 +46,8 @@
         {"placeholder", "some placeholder"},
         {"disabled", "true"}};
 
+    private void AddNewMovie()
+    {
+        _movies.Add(new Movie(){Title = "Movie Sample", ReleaseDate = DateTime.Today});
+    }
 }
