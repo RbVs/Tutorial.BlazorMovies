@@ -1,56 +1,23 @@
-﻿@if (Movies == null)
-{
-    @if (NullTemplate != null)
-    {
-        @NullTemplate
-    }
-    else
-    {
-        //default content -> wenn kein Parameter angegeben wird
-        <img src="https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif" />
-    }
-}
-else if (Movies.Count == 0)
-{
-    @if (EmptyTemplate != null)
-    {
-        @EmptyTemplate
-    }
-    else
-    {
-        //default content -> wenn kein Parameter angegeben wird
-        <text>There are no records to show</text>
-    }
-}
+﻿@*passing parameter*@
+<input type="checkbox" @onchange="@(() => _displayButtons = !_displayButtons)" />
 
-else
-{
-    // passing parameter
-    <input type="checkbox" @onchange="@(() => _displayButtons = !_displayButtons)" />
-
-    //binding values
-    <input type="checkbox" @bind="_displayButtons" />
+@*binding values*@
+<input type="checkbox" @bind="_displayButtons" />
 
 
-
-    @foreach (var movie in Movies)
-    {
+@*context => refernz zum generischen typ, welcher aktuell verwendet wird*@
+@*context kann umbenannt werden mit Context="wunschName"*@
+<GenericList List="Movies" Context="movie">
+    <ElementTemplate>
         <IndividualMovie Movie="@movie" DisplayButtons="@_displayButtons" DeleteMovie="DeleteMovie"></IndividualMovie>
-    }
-}
+    </ElementTemplate>
+</GenericList>
 
 @code {
 
     [Parameter]
     public List<Movie> Movies { get; set; }
-    [Parameter]
-    //public RenderFragment ChildContent { get; set; }
-    public RenderFragment NullTemplate { get; set; }
-    [Parameter]
-    public RenderFragment EmptyTemplate { get; set; }
-
-
-
+    
     bool _displayButtons = true;
 
     private void DeleteMovie(Movie movie)
