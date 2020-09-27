@@ -1,15 +1,19 @@
 ﻿@page "/"
+@inject SingletonService singleton
+@inject IRepository repository
+
+<p>Current count: @singleton.Value</p>
 
 <div>
     <h3>Movie</h3>
-    <MoviesList Movies="@_movies"/>
-    
+    <MoviesList Movies="@_movies" />
+
 </div>
 
 <div>
-    <DummyTextBox placeholder="some placeholder" disabled="true"/>
+    <DummyTextBox placeholder="some placeholder" disabled="true" />
 
-    <DummyTextBox @attributes="@TextBoxParameters"/>
+    <DummyTextBox @attributes="@TextBoxParameters" />
 </div>
 
 <button @onclick="AddNewMovie">Add new movie</button>
@@ -32,12 +36,7 @@
 
     protected override void OnInitialized()
     {
-        _movies = new List<Movie>
-        {
-            new Movie {Title = "Spiderman: Far from Home", ReleaseDate = new DateTime(2019, 7, 2)},
-            new Movie {Title = "Moana", ReleaseDate = new DateTime(2016, 11, 23)},
-            new Movie {Title = "Inception", ReleaseDate = new DateTime(2010, 7, 16)}
-        };
+        _movies = repository.GetMovies();
     }
 
     private List<Movie> _movies;
@@ -48,6 +47,6 @@
 
     private void AddNewMovie()
     {
-        _movies.Add(new Movie(){Title = "Movie Sample", ReleaseDate = DateTime.Today});
+        _movies.Add(new Movie() { Title = "Movie Sample", ReleaseDate = DateTime.Today });
     }
 }
