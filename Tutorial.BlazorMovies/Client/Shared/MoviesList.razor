@@ -19,7 +19,7 @@ else
 
     @foreach (var movie in Movies)
     {
-        <IndividualMovie Movie="@movie" DisplayButtons="@_displayButtons"></IndividualMovie>
+        <IndividualMovie Movie="@movie" DisplayButtons="@_displayButtons" DeleteMovie="DeleteMovie"></IndividualMovie>
     }
 }
 
@@ -29,4 +29,9 @@ else
     public List<Movie> Movies { get; set; }
 
     bool _displayButtons = true;
+
+    private void DeleteMovie(Movie movie)
+    {
+        Movies.Remove(movie);
+    }
 }
