@@ -23,12 +23,13 @@ namespace Tutorial.BlazorMovies.Client.Pages
             _movies = new List<Movie>
             {
                 new Movie {Title = "Joker", ReleaseDate = new DateTime(2019, 7, 2)},
-                new Movie {Title = "Avengers", ReleaseDate = new DateTime(2016, 11, 23)},
+                new Movie {Title = "Avengers", ReleaseDate = new DateTime(2016, 11, 23)}
             };
             base.OnInitialized();
         }
 
-        private async Task IncrementCount()
+        [JSInvokable]
+        public async Task IncrementCount()
         {
             currentCount++;
 
@@ -43,6 +44,12 @@ namespace Tutorial.BlazorMovies.Client.Pages
         public static Task<int> GetCurrentCount()
         {
             return Task.FromResult(currentCountStatic);
+        }
+
+        private async Task IncrementCountJavaScript()
+        {
+            await JsRuntime.InvokeVoidAsync("dotnetInstanceInvocation",
+                DotNetObjectReference.Create(this));
         }
     }
 }
