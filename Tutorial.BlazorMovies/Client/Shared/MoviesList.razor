@@ -1,4 +1,6 @@
-﻿@*passing parameter*@
+﻿@inject IJSRuntime js
+
+@*passing parameter*@
 <input type="checkbox" @onchange="@(() => _displayButtons = !_displayButtons)" />
 
 @*binding values*@
@@ -20,9 +22,15 @@
 
     bool _displayButtons = true;
 
-    private void DeleteMovie(Movie movie)
+    private async Task DeleteMovie(Movie movie)
     {
-        Movies.Remove(movie);
+        var confirmed = await js.Confirm($"Delete movie {movie.Title}?");
+
+        if (confirmed)
+        {
+            Movies.Remove(movie);
+            await js.MyFunction($"{movie.Title} was deleted");
+        }
     }
 
 
