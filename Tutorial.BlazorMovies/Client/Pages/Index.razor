@@ -2,7 +2,14 @@
 
 <div>
     <h3>Movie</h3>
-    <MoviesList Movies="@_movies"></MoviesList>
+    <MoviesList Movies="@_movies">
+        <NullTemplate>
+            <span style="color: red">This is loading ...</span>
+        </NullTemplate>
+        <EmptyTemplate>
+            <span style="color: blue">No records to show ...</span>
+        </EmptyTemplate>
+    </MoviesList>
 </div>
 
 <div>
@@ -30,7 +37,7 @@
     private List<Movie> _movies;
 
     private static Dictionary<string, object> TextBoxParameters => new Dictionary<string, object> {
-        {"placeholder", "some placeholder"}, 
+        {"placeholder", "some placeholder"},
         {"disabled", "true"}};
 
 }

@@ -1,19 +1,35 @@
 ﻿@if (Movies == null)
 {
-    <img src="https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif"/>
+    @if (NullTemplate != null)
+    {
+        @NullTemplate
+    }
+    else
+    {
+        //default content -> wenn kein Parameter angegeben wird
+        <img src="https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif" />
+    }
 }
 else if (Movies.Count == 0)
 {
-    <text>There are no records to show</text>
+    @if (EmptyTemplate != null)
+    {
+        @EmptyTemplate
+    }
+    else
+    {
+        //default content -> wenn kein Parameter angegeben wird
+        <text>There are no records to show</text>
+    }
 }
 
 else
-{ 
+{
     // passing parameter
-    <input type="checkbox" @onchange="@(() => _displayButtons = !_displayButtons)"/>
+    <input type="checkbox" @onchange="@(() => _displayButtons = !_displayButtons)" />
 
     //binding values
-    <input type="checkbox" @bind="_displayButtons"/>
+    <input type="checkbox" @bind="_displayButtons" />
 
 
 
@@ -27,6 +43,13 @@ else
 
     [Parameter]
     public List<Movie> Movies { get; set; }
+    [Parameter]
+    //public RenderFragment ChildContent { get; set; }
+    public RenderFragment NullTemplate { get; set; }
+    [Parameter]
+    public RenderFragment EmptyTemplate { get; set; }
+
+
 
     bool _displayButtons = true;
 
