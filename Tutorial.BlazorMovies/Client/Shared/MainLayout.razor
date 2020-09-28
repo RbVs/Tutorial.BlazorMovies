@@ -1,7 +1,8 @@
 ﻿@inherits LayoutComponentBase
 
+
 <div class="sidebar">
-    <NavMenu />
+    <NavMenu/>
 </div>
 
 <div class="main">
@@ -10,8 +11,22 @@
     </div>
 
     <div class="content px-4">
-        @Body
-        
+
+        <CascadingValue Value="@_appState" >
+            @Body
+        </CascadingValue>
         <span style="color: red">This is from layout Component</span>
     </div>
 </div>
+
+
+@code {
+    readonly AppState _appState = new AppState();
+
+    public class AppState
+    {
+        public string Color { get; set; } = "blue";
+        public string Size { get; set; } = "10px";
+    }
+
+}

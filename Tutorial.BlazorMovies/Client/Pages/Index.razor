@@ -2,7 +2,7 @@
 @inject SingletonService singleton
 @inject IRepository repository
 
-<p>Current count: @singleton.Value</p>
+<p style="color: @AppState.Color">Current count: @singleton.Value</p>
 
 <div>
     <h3>Movie</h3>
@@ -19,12 +19,12 @@
 <button @onclick="AddNewMovie">Add new movie</button>
 
 @code{
+    [CascadingParameter] MainLayout.AppState AppState { get; set; }
 
     protected override void OnInitialized()
     {
         _movies = repository.GetMovies();
     }
-
     private List<Movie> _movies;
 
     private static Dictionary<string, object> TextBoxParameters => new Dictionary<string, object> {

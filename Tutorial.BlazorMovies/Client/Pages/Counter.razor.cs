@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using Tutorial.BlazorMovies.Client.Shared;
+using static Tutorial.BlazorMovies.Client.Shared.MainLayout;
 using Tutorial.BlazorMovies.Shared.Entities;
 
 namespace Tutorial.BlazorMovies.Client.Pages
@@ -12,6 +14,7 @@ namespace Tutorial.BlazorMovies.Client.Pages
         [Inject] private SingletonService Singleton { get; set; }
         [Inject] private TransientService Transient { get; set; }
         [Inject] public IJSRuntime JsRuntime { get; set; }
+        [CascadingParameter] public AppState AppState{ get; set; }
 
         private int currentCount;
 
