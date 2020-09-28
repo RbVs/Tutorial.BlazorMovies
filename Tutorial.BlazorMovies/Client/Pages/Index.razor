@@ -20,20 +20,6 @@
 
 @code{
 
-    //protected override async  Task OnInitializedAsync()
-    //{
-    //    await Task.Delay(3000);
-
-    //    _movies = new List<Movie>
-    //    {
-    //        new Movie {Title = "Spiderman: Far from Home", ReleaseDate = new DateTime(2019, 7, 2)},
-    //        new Movie {Title = "Moana", ReleaseDate = new DateTime(2016, 11, 23)},
-    //        new Movie {Title = "Inception", ReleaseDate = new DateTime(2010, 7, 16)}
-    //    };
-
-    //    await base.OnInitializedAsync();
-    //}
-
     protected override void OnInitialized()
     {
         _movies = repository.GetMovies();

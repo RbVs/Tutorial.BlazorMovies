@@ -1,49 +1,64 @@
 ﻿@inject IJSRuntime js
 
 @*passing parameter*@
-<input type="checkbox" @onchange="@(() => _displayButtons = !_displayButtons)" />
+<input type="checkbox" @onchange="@(() => _displayButtons = !_displayButtons)"/>
 
 @*binding values*@
-<input type="checkbox" @bind="_displayButtons" />
+<input type="checkbox" @bind="_displayButtons"/>
 
 
 @*context => refernz zum generischen typ, welcher aktuell verwendet wird*@
 @*context kann umbenannt werden mit Context="wunschName"*@
 <GenericList List="Movies" Context="movie">
     <ElementTemplate>
-        <IndividualMovie Movie="@movie" DisplayButtons="@_displayButtons" DeleteMovie="DeleteMovie"></IndividualMovie>
+        <IndividualMovie Movie="@movie" DisplayButtons="@_displayButtons" DeleteMovie="DeleteMovie"/>
     </ElementTemplate>
 </GenericList>
 
+<Confirmation @ref="confirmation" Title="Mein Dialog" onCancel="OnCancel" onConfirm="OnConfirm">
+    <div>Do you wish to delete @_movieToBeDeleted.Title?</div>
+</Confirmation>
+
 @code {
+
+    Confirmation confirmation;
 
     [Parameter]
     public List<Movie> Movies { get; set; }
 
     bool _displayButtons = true;
 
+    Movie _movieToBeDeleted;
+
     private async Task DeleteMovie(Movie movie)
     {
-        var confirmed = await js.Confirm($"Delete movie {movie.Title}?");
-
-        if (confirmed)
-        {
-            Movies.Remove(movie);
-            await js.MyFunction($"{movie.Title} was deleted");
-        }
+        _movieToBeDeleted = movie;
+        confirmation.Show();
     }
 
+    void OnConfirm()
+    {
+        Movies.Remove(_movieToBeDeleted);
+        confirmation.Hide();
+        _movieToBeDeleted = null;
+    }
+
+    void OnCancel()
+    {
+        confirmation.Hide();
+        _movieToBeDeleted = null;
+    }
 
     //Life Cycle Methods of a Component
     protected override void OnInitialized()
     {
-        Console.WriteLine("OnInitialized. Movies.Count=" + Movies.Count.ToString());
+        Console.WriteLine("OnInitialized. Movies.Count=" + Movies.Count);
     }
 
     //wird jedes mal, wenn ein parameter geändert wird ausgeführt
     protected override void OnParametersSet()
     {
-        Console.WriteLine("OnParametersSet. Movies.Count=" + Movies.Count.ToString());
+        Console.WriteLine("OnParametersSet. Movies.Count=" + Movies.Count);
     }
 
     protected override void OnAfterRender(bool firstRender)
@@ -56,4 +71,5 @@
     {
         return true;
     }
+
 }
