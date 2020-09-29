@@ -1,0 +1,115 @@
+﻿@page "/"
+@using System.Timers
+@using RockPaperAndScissors.Helpers
+@implements IDisposable
+
+<h1> Rock, Paper and Scissors</h1>
+
+@if (!string.IsNullOrEmpty(resultMessage))
+{
+    <h3 style="color: @resultMessageColor">@resultMessage</h3>
+}
+
+<button class="btn btn-info" @onclick="PlayAggain">Play Again</button>
+
+<div style="display: flex; justify-content: center; margin-bottom: 20px">
+    <img src="@_opponentHand.Image" class="image"/>
+</div>
+
+<div style="display: flex; justify-content: space-around">
+    
+    @foreach (var hand in hands)
+    {
+        <img src="@hand.Image" class="image selectable-image" @onclick="@(()=> SelectHand(hand))"/>
+    } 
+</div>
+
+@code
+{
+    List<Hand> hands = new List<Hand>
+    {
+        new Hand
+        {
+            Selection = OptionRPS.Paper,
+            LosesAgaings = OptionRPS.Scissors,
+            WinsAgaings = OptionRPS.Rock,
+            Image = "paper.jpg"
+        },
+        new Hand
+        {
+            Selection = OptionRPS.Rock,
+            LosesAgaings = OptionRPS.Paper,
+            WinsAgaings = OptionRPS.Scissors,
+            Image = "rock.jpg"
+        },
+        new Hand
+        {
+            Selection = OptionRPS.Scissors,
+            LosesAgaings = OptionRPS.Rock,
+            WinsAgaings = OptionRPS.Paper,
+            Image = "scissors.jpg"
+        }
+    };
+
+    Timer _timer;
+    Hand _opponentHand;
+    string resultMessage = string.Empty;
+    string resultMessageColor = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        _opponentHand = hands[0];
+
+        _timer = new Timer();
+
+        _timer.Interval = 100;
+        _timer.Elapsed += TimerOnElapse;
+        _timer.Start();
+    }
+
+    int indexOpponentHand = 0;
+
+    private void TimerOnElapse(object sender, ElapsedEventArgs e)
+    {
+        indexOpponentHand = (indexOpponentHand + 1) % hands.Count;
+        _opponentHand = hands[indexOpponentHand];
+        StateHasChanged();
+
+    }
+
+    public void Dispose()
+    {
+        if (_timer != null)
+        {
+            _timer.Dispose();
+        }
+    }
+
+    private void SelectHand(Hand hand)
+    {
+        _timer.Stop();
+        var result = hand.PlayAgainst(_opponentHand);
+
+        if (result == GameStatus.Victory)
+        {
+            resultMessage = "You won!";
+            resultMessageColor = "green";
+        }
+        else if (result == GameStatus.Loss)
+        {
+            resultMessage = "You lost!";
+            resultMessageColor = "red";
+        }
+        else
+        {
+            resultMessage = "Draw!";
+            resultMessageColor = "black";
+        }
+    }
+
+    private void PlayAggain(MouseEventArgs arg)
+    {
+        _timer.Start();
+        resultMessage = string.Empty;
+    }
+}
