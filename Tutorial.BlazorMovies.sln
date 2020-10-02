@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tutorial.BlazorMovies.Clien
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tutorial.BlazorMovies.Shared", "Tutorial.BlazorMovies\Shared\Tutorial.BlazorMovies.Shared.csproj", "{0FE6C0A0-B734-4534-BC38-E96DB707FDC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RockPaperAndScissors", "RockPaperAndScissors\RockPaperAndScissors.csproj", "{D9659FCB-C5BB-4D53-824D-6C31B9F7CAAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RockPaperAndScissors", "RockPaperAndScissors\RockPaperAndScissors.csproj", "{D9659FCB-C5BB-4D53-824D-6C31B9F7CAAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
