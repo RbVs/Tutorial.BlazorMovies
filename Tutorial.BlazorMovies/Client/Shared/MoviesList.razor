@@ -1,75 +1,29 @@
 ﻿@inject IJSRuntime js
 
-@*passing parameter*@
-<input type="checkbox" @onchange="@(() => _displayButtons = !_displayButtons)"/>
+<div class="movies-container">
+    <GenericList List="Movies" Context="movie">
+        <ElementTemplate>
+            <IndividualMovie Movie="@movie" DeleteMovie="DeleteMovie"/>
+        </ElementTemplate>
+    </GenericList>
+</div>
 
-@*binding values*@
-<input type="checkbox" @bind="_displayButtons"/>
-
-
-@*context => refernz zum generischen typ, welcher aktuell verwendet wird*@
-@*context kann umbenannt werden mit Context="wunschName"*@
-<GenericList List="Movies" Context="movie">
-    <ElementTemplate>
-        <IndividualMovie Movie="@movie" DisplayButtons="@_displayButtons" DeleteMovie="DeleteMovie"/>
-    </ElementTemplate>
-</GenericList>
-
-<Confirmation @ref="confirmation" Title="Mein Dialog" onCancel="OnCancel" onConfirm="OnConfirm">
-    <div>Do you wish to delete @_movieToBeDeleted.Title?</div>
-</Confirmation>
 
 @code {
-
-    Confirmation confirmation;
-
     [Parameter]
     public List<Movie> Movies { get; set; }
-
-    bool _displayButtons = true;
 
     Movie _movieToBeDeleted;
 
     private async Task DeleteMovie(Movie movie)
     {
-        _movieToBeDeleted = movie;
-        confirmation.Show();
-    }
+        await js.MyFunction("custom message");
 
-    void OnConfirm()
-    {
-        Movies.Remove(_movieToBeDeleted);
-        confirmation.Hide();
-        _movieToBeDeleted = null;
-    }
+        var confirm = await js.Confirm($"you sure {movie.Title}?");
 
-    void OnCancel()
-    {
-        confirmation.Hide();
-        _movieToBeDeleted = null;
+        if (confirm)
+        {
+            Movies.Remove(movie);
+        }
     }
-
-    //Life Cycle Methods of a Component
-    protected override void OnInitialized()
-    {
-        Console.WriteLine("OnInitialized. Movies.Count=" + Movies.Count);
-    }
-
-    //wird jedes mal, wenn ein parameter geändert wird ausgeführt
-    protected override void OnParametersSet()
-    {
-        Console.WriteLine("OnParametersSet. Movies.Count=" + Movies.Count);
-    }
-
-    protected override void OnAfterRender(bool firstRender)
-    {
-        Console.WriteLine("OnAfterRender. First render" + firstRender);
-    }
-
-    //erstellt elemente auf der seite neu
-    protected override bool ShouldRender()
-    {
-        return true;
-    }
-
 }

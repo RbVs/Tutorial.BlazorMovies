@@ -1,38 +1,18 @@
 ﻿@page "/"
-@inject SingletonService singleton
 @inject IRepository repository
-
-<p style="color: @AppState.Color">Current count: @singleton.Value</p>
 
 <div>
     <h3>Movie</h3>
-    <MoviesList Movies="@_movies" />
-
+    <MoviesList Movies="@_movies"/>
 </div>
-
-<div>
-    <DummyTextBox placeholder="some placeholder" disabled="true" />
-
-    <DummyTextBox @attributes="@TextBoxParameters" />
-</div>
-
-<button @onclick="AddNewMovie">Add new movie</button>
 
 @code{
-    [CascadingParameter] MainLayout.AppState AppState { get; set; }
+    private List<Movie> _movies;
 
     protected override void OnInitialized()
     {
         _movies = repository.GetMovies();
+        base.OnInitialized();
     }
-    private List<Movie> _movies;
 
-    private static Dictionary<string, object> TextBoxParameters => new Dictionary<string, object> {
-        {"placeholder", "some placeholder"},
-        {"disabled", "true"}};
-
-    private void AddNewMovie()
-    {
-        _movies.Add(new Movie() { Title = "Movie Sample", ReleaseDate = DateTime.Today });
-    }
 }

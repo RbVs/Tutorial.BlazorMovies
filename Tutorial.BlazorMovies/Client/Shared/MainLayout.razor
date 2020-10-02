@@ -11,22 +11,6 @@
     </div>
 
     <div class="content px-4">
-
-        <CascadingValue Value="@_appState" >
-            @Body
-        </CascadingValue>
-        <span style="color: red">This is from layout Component</span>
+        @Body
     </div>
 </div>
-
-
-@code {
-    readonly AppState _appState = new AppState();
-
-    public class AppState
-    {
-        public string Color { get; set; } = "blue";
-        public string Size { get; set; } = "10px";
-    }
-
-}
